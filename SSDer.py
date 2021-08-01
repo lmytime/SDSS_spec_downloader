@@ -8,7 +8,6 @@ radius = 2
 
 
 def sdss_image_preview(cat):
-    from PIL import Image
     import requests
     import pandas as pd
     for _, row in cat.iterrows():
@@ -21,9 +20,8 @@ def sdss_image_preview(cat):
 #         print(f"image-{ra=:.4f}-{dec=:.4f}.gif Preview link:")
 #         print(url)
 
-        im = Image.open(requests.get(url, stream=True).raw)
-        im.save(f"sdss/spec-{plate:04d}-{mjd:05d}-{fiberID:04d}-image.gif" , quality='keep')
-    return im
+        r = requests.get(url, allow_redirects=True)
+        open(f"sdss/spec-{plate:04d}-{mjd:05d}-{fiberID:04d}-image.gif", 'wb').write(r.content)
 
 def sdss_spec_download(cat):
     import requests
@@ -41,7 +39,6 @@ def sdss_spec_download(cat):
         open(f"sdss/spec-{plate:04d}-{mjd:05d}-{fiberID:04d}.fits", 'wb').write(r.content)
 
 def sdss_spec_preview(cat):
-    from PIL import Image
     import requests
     import pandas as pd
     for _, row in cat.iterrows():
@@ -53,9 +50,8 @@ def sdss_spec_preview(cat):
 #         print(f"spec-{plate:04d}-{mjd:05d}-{fiberID:04d}.gif Preview link:")
 #         print(url)
 
-        im = Image.open(requests.get(url, stream=True).raw)
-        im.save(f"sdss/spec-{plate:04d}-{mjd:05d}-{fiberID:04d}.gif", quality='keep')
-    return im
+        r = requests.get(url, allow_redirects=True)
+        open(f"sdss/spec-{plate:04d}-{mjd:05d}-{fiberID:04d}.gif", 'wb').write(r.content)
 
 import pandas as pd
 import astropy.units as u
